@@ -44,7 +44,20 @@
             position: relative;
         }
 
-        header h1 { text-align: center; color: var(--primary-color); margin-bottom: 20px; font-size: 2em; }
+        header {
+            text-align: center;
+        }
+
+        /* ⭐️ CSS ที่เพิ่มเข้ามาสำหรับรูปภาพ Banner ⭐️ */
+        .header-banner {
+            width: 100%; /* ทำให้รูปภาพกว้างเต็ม container */
+            max-width: 600px; /* กำหนดความกว้างสูงสุด */
+            height: auto; /* รักษาสัดส่วนของภาพ */
+            margin-bottom: 15px; /* เพิ่มระยะห่างใต้รูปภาพ */
+            border-radius: 8px;
+        }
+
+        header h1 { color: var(--primary-color); margin-bottom: 20px; font-size: 2em; }
         .match-info { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; border-bottom: 2px solid #e0e0e0; padding-bottom: 20px; }
         .match-info div { display: flex; flex-direction: column; }
         .match-info label { font-weight: bold; margin-bottom: 5px; color: var(--light-text); }
@@ -70,21 +83,11 @@
         
         .sets-won-display { font-size: 2em; font-weight: bold; color: #ff9800; }
 
-        /* ⭐️ CSS ที่เพิ่มเข้ามาสำหรับ Section ใหม่ ⭐️ */
         .set-results-panel {
-            text-align: center;
-            margin-top: 25px;
-            padding: 15px;
-            background-color: #fafafa;
-            border-radius: 8px;
-            border: 1px solid #e0e0e0;
+            text-align: center; margin-top: 25px; padding: 15px;
+            background-color: #fafafa; border-radius: 8px; border: 1px solid #e0e0e0;
         }
-        .set-results-panel h2 {
-            margin-top: 0;
-            margin-bottom: 10px;
-            font-size: 1.5em;
-            color: var(--primary-color);
-        }
+        .set-results-panel h2 { margin-top: 0; margin-bottom: 10px; font-size: 1.5em; color: var(--primary-color); }
         #set-scores-display { font-size: 1.1em; color: var(--dark-text); }
         #set-scores-display p { margin: 5px 0; font-weight: bold; }
         #set-scores-display span { font-weight: normal; background-color: #fff; padding: 2px 8px; border-radius: 4px; margin-left: 10px; }
@@ -136,9 +139,12 @@
 
     <div id="capture-wrapper">
         <div class="container" id="capture-area">
+            
             <header>
+                <img src="banner.png" alt="แบนเนอร์ใบลงคะแนนตะกร้อ" class="header-banner">
                 <h1>ใบลงคะแนนตะกร้อ</h1>
             </header>
+            
             <section class="match-info">
                 <div> <label for="match-type">ประเภท</label> <input type="text" id="match-type" placeholder="เช่น ชาย, หญิง"> </div>
                 <div> <label for="match-round">รอบ</label> <input type="text" id="match-round" placeholder="เช่น รอบชิงชนะเลิศ"> </div>
