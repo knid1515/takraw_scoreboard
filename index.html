@@ -38,7 +38,7 @@
             max-width: 800px;
             background-color: var(--container-bg);
             border-radius: 12px;
-            box-shadow: 0 4px D12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             padding: 25px;
             box-sizing: border-box;
             position: relative;
@@ -70,13 +70,28 @@
         
         .sets-won-display { font-size: 2em; font-weight: bold; color: #ff9800; }
 
-        .match-result { text-align: center; margin-top: 30px; padding: 20px; background-color: #e8f0fe; border-radius: 8px; border: 1px solid #d2e3fc; }
-        .match-result h2 { font-size: 1.8em; color: #1967d2; margin-bottom: 10px; }
-        #winner-text { font-size: 1.4em; font-weight: bold; min-height: 30px; }
-        
-        #set-scores-display { margin-top: 15px; font-size: 1.1em; color: var(--dark-text); }
+        /* ⭐️ CSS ที่เพิ่มเข้ามาสำหรับ Section ใหม่ ⭐️ */
+        .set-results-panel {
+            text-align: center;
+            margin-top: 25px;
+            padding: 15px;
+            background-color: #fafafa;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+        .set-results-panel h2 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 1.5em;
+            color: var(--primary-color);
+        }
+        #set-scores-display { font-size: 1.1em; color: var(--dark-text); }
         #set-scores-display p { margin: 5px 0; font-weight: bold; }
         #set-scores-display span { font-weight: normal; background-color: #fff; padding: 2px 8px; border-radius: 4px; margin-left: 10px; }
+        
+        .match-result { text-align: center; margin-top: 20px; padding: 20px; background-color: #e8f0fe; border-radius: 8px; border: 1px solid #d2e3fc; }
+        .match-result h2 { font-size: 1.8em; color: #1967d2; margin-bottom: 10px; }
+        #winner-text { font-size: 1.4em; font-weight: bold; min-height: 30px; }
 
         .signature-section { text-align: center; margin-top: 30px; padding-top: 20px; border-top: 2px solid #e0e0e0; }
         .signature-section h2 { font-size: 1.5em; color: var(--light-text); margin-bottom: 25px; }
@@ -91,44 +106,24 @@
 
         footer { text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e0e0e0; color: var(--light-text); }
         
-        /* ⭐️ CSS ที่เพิ่มเข้ามาสำหรับ Pop-up ⭐️ */
         #set-winner-notification {
-            position: fixed;
-            top: 50%;
-            left: 50%;
+            position: fixed; top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            background-color: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 20px 40px;
-            border-radius: 10px;
-            text-align: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.5s, visibility 0.5s;
+            background-color: rgba(0, 0, 0, 0.8); color: white;
+            padding: 20px 40px; border-radius: 10px; text-align: center; z-index: 1000;
+            opacity: 0; visibility: hidden; transition: opacity 0.5s, visibility 0.5s;
         }
-        #set-winner-notification.show {
-            opacity: 1;
-            visibility: visible;
-        }
-        #set-winner-notification h3 {
-            margin-top: 0;
-            font-size: 1.8em;
-            color: #ffc107;
-        }
-        #set-winner-notification p {
-            margin: 5px 0;
-            font-size: 1.2em;
-        }
-        /* ⭐️ จบส่วน CSS ⭐️ */
+        #set-winner-notification.show { opacity: 1; visibility: visible; }
+        #set-winner-notification h3 { margin-top: 0; font-size: 1.8em; color: #ffc107; }
+        #set-winner-notification p { margin: 5px 0; font-size: 1.2em; }
         
         @media (max-width: 768px) {
             body { padding: 10px; }
             .container { padding: 15px; }
             header h1 { font-size: 1.8em; }
-            .scoreboard { grid-template-columns: 1fr; }
-            .teams { grid-template-columns: 1fr 50px 1fr; }
-            .teams input { font-size: 1.1em; }
+            .scoreboard, .teams { grid-template-columns: 1fr; }
+            .teams { gap: 10px; }
+            .teams span { display: none; }
             .score { font-size: 4em; }
             .controls { flex-direction: column; gap: 10px; }
             .controls button { width: 100%; }
@@ -169,11 +164,17 @@
                     <div class="sets-won"> <h3>เซตที่ชนะ</h3> <div id="team2-sets-won" class="sets-won-display">0</div> </div>
                 </div>
             </div>
+            
+            <section class="set-results-panel">
+                <h2>สรุปผลคะแนนรายเซต</h2>
+                <div id="set-scores-display"></div>
+            </section>
+
             <section class="match-result">
                 <h2>ผลการแข่งขัน</h2>
                 <div id="winner-text">ยังไม่มีผู้ชนะ</div>
-                <div id="set-scores-display"></div>
             </section>
+
             <section class="signature-section">
                 <h2>กรรมการผู้ชี้ขาด</h2>
                 <div class="signature-line">
@@ -192,6 +193,7 @@
     </div>
 
     <script>
+        // ไม่มีการเปลี่ยนแปลงในส่วนของ JavaScript
         const NORMAL_SET_SCORE = 21; const TIEBREAK_SET_SCORE = 11; const WIN_BY = 2; const MAX_SETS = 2;
         let state = {
             currentSet: 1, scores: { team1: 0, team2: 0 }, setsWon: { team1: 0, team2: 0 },
@@ -240,40 +242,24 @@
             if (winner) { handleSetWin(winner); }
         }
 
-        // --- ⭐️ ฟังก์ชันที่แก้ไขเพื่อแสดง Pop-up ⭐️ ---
         function handleSetWin(winner) {
             const scoreString = `${state.scores.team1} - ${state.scores.team2}`;
             const winnerName = state.teamNames[winner];
-            
-            // แสดง Pop-up แจ้งเตือน
             showSetWinnerNotification(winnerName, scoreString);
-
             state.setResults.push(scoreString);
             updateSetScoresDisplay();
             state.setsWon[winner]++;
             updateScoreboard();
-
-            if (state.setsWon[winner] >= MAX_SETS) {
-                handleMatchWin(winner);
-            } else {
-                // หน่วงเวลาเล็กน้อยก่อนเริ่มเซตใหม่เพื่อให้ผู้ใช้เห็น Pop-up
-                setTimeout(startNextSet, 1000); 
-            }
+            if (state.setsWon[winner] >= MAX_SETS) { handleMatchWin(winner); } 
+            else { setTimeout(startNextSet, 1000); }
         }
-        // --- ⭐️ จบส่วนแก้ไข ⭐️ ---
 
-        // --- ⭐️ ฟังก์ชันใหม่สำหรับควบคุม Pop-up ⭐️ ---
         function showSetWinnerNotification(winnerName, score) {
             const notification = document.getElementById('set-winner-notification');
             notification.innerHTML = `<h3>ผู้ชนะเซตที่ ${state.currentSet}</h3><p>${winnerName}</p><p>ด้วยคะแนน ${score}</p>`;
             notification.classList.add('show');
-
-            // ซ่อน Pop-up หลังจาก 4 วินาที
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 4000);
+            setTimeout(() => { notification.classList.remove('show'); }, 4000);
         }
-        // --- ⭐️ จบฟังก์ชันใหม่ ⭐️ ---
 
         function updateSetScoresDisplay() {
             setScoresDisplay.innerHTML = '';
