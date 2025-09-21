@@ -44,20 +44,22 @@
             position: relative;
         }
 
-        header {
-            text-align: center;
+        header { text-align: center; }
+
+        header h1 { color: var(--primary-color); margin-top:0; margin-bottom: 5px; font-size: 2.2em; }
+        
+        /* ⭐️ CSS ที่เพิ่มเข้ามาสำหรับข้อความสรุป ⭐️ */
+        #match-summary-text {
+            font-size: 1.1em;
+            color: var(--light-text);
+            font-weight: normal;
+            margin-top: 5px;
+            margin-bottom: 20px;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+            padding: 8px 0;
         }
 
-        /* ⭐️ CSS ที่เพิ่มเข้ามาสำหรับรูปภาพ Banner ⭐️ */
-        .header-banner {
-            width: 100%; /* ทำให้รูปภาพกว้างเต็ม container */
-            max-width: 600px; /* กำหนดความกว้างสูงสุด */
-            height: auto; /* รักษาสัดส่วนของภาพ */
-            margin-bottom: 15px; /* เพิ่มระยะห่างใต้รูปภาพ */
-            border-radius: 8px;
-        }
-
-        header h1 { color: var(--primary-color); margin-bottom: 20px; font-size: 2em; }
         .match-info { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; border-bottom: 2px solid #e0e0e0; padding-bottom: 20px; }
         .match-info div { display: flex; flex-direction: column; }
         .match-info label { font-weight: bold; margin-bottom: 5px; color: var(--light-text); }
@@ -124,6 +126,7 @@
             body { padding: 10px; }
             .container { padding: 15px; }
             header h1 { font-size: 1.8em; }
+            #match-summary-text { font-size: 1em; word-wrap: break-word; }
             .scoreboard, .teams { grid-template-columns: 1fr; }
             .teams { gap: 10px; }
             .teams span { display: none; }
@@ -134,23 +137,22 @@
     </style>
 </head>
 <body>
-    
     <div id="set-winner-notification"></div>
-
     <div id="capture-wrapper">
         <div class="container" id="capture-area">
             
             <header>
-                <img src="banner.png" alt="แบนเนอร์ใบลงคะแนนตะกร้อ" class="header-banner">
                 <h1>ใบลงคะแนนตะกร้อ</h1>
+                <h2 id="match-summary-text"></h2>
             </header>
             
             <section class="match-info">
-                <div> <label for="match-type">ประเภท</label> <input type="text" id="match-type" placeholder="เช่น ชาย, หญิง"> </div>
-                <div> <label for="match-round">รอบ</label> <input type="text" id="match-round" placeholder="เช่น รอบชิงชนะเลิศ"> </div>
-                <div> <label for="match-group">สาย</label> <input type="text" id="match-group" placeholder="เช่น A, B"> </div>
-                <div> <label for="match-number">คู่ที่</label> <input type="text" id="match-number" placeholder="เช่น 1, 2"> </div>
+                <div> <label for="match-type">ประเภท</label> <input type="text" id="match-type" placeholder="เช่น ชาย, หญิง" onkeyup="updateMatchSummary()"> </div>
+                <div> <label for="match-round">รอบ</label> <input type="text" id="match-round" placeholder="เช่น รอบชิงชนะเลิศ" onkeyup="updateMatchSummary()"> </div>
+                <div> <label for="match-group">สาย</label> <input type="text" id="match-group" placeholder="เช่น A, B" onkeyup="updateMatchSummary()"> </div>
+                <div> <label for="match-number">คู่ที่</label> <input type="text" id="match-number" placeholder="เช่น 1, 2" onkeyup="updateMatchSummary()"> </div>
             </section>
+
             <section class="teams">
                 <input type="text" id="team1-name-input" placeholder="ชื่อทีมที่ 1" onkeyup="updateTeamNames()">
                 <span>VS</span>
@@ -175,12 +177,10 @@
                 <h2>สรุปผลคะแนนรายเซต</h2>
                 <div id="set-scores-display"></div>
             </section>
-
             <section class="match-result">
                 <h2>ผลการแข่งขัน</h2>
                 <div id="winner-text">ยังไม่มีผู้ชนะ</div>
             </section>
-
             <section class="signature-section">
                 <h2>กรรมการผู้ชี้ขาด</h2>
                 <div class="signature-line">
@@ -199,7 +199,6 @@
     </div>
 
     <script>
-        // ไม่มีการเปลี่ยนแปลงในส่วนของ JavaScript
         const NORMAL_SET_SCORE = 21; const TIEBREAK_SET_SCORE = 11; const WIN_BY = 2; const MAX_SETS = 2;
         let state = {
             currentSet: 1, scores: { team1: 0, team2: 0 }, setsWon: { team1: 0, team2: 0 },
@@ -210,6 +209,17 @@
         const setsWonDisplays = { team1: document.getElementById('team1-sets-won'), team2: document.getElementById('team2-sets-won') };
         const winnerText = document.getElementById('winner-text');
         const setScoresDisplay = document.getElementById('set-scores-display');
+
+        // --- ⭐️ ฟังก์ชันใหม่สำหรับอัปเดตข้อความสรุป ⭐️ ---
+        function updateMatchSummary() {
+            const matchType = document.getElementById('match-type').value || '-';
+            const matchRound = document.getElementById('match-round').value || '-';
+            const matchGroup = document.getElementById('match-group').value || '-';
+            const matchNumber = document.getElementById('match-number').value || '-';
+            const summaryElement = document.getElementById('match-summary-text');
+
+            summaryElement.textContent = `การแข่งขันประเภท ${matchType} | รอบ ${matchRound} | สาย ${matchGroup} | คู่ที่ ${matchNumber}`;
+        }
 
         function updateTeamNames() {
             state.teamNames.team1 = document.getElementById('team1-name-input').value || 'ทีม 1';
@@ -303,6 +313,7 @@
                 teamNames: { team1: document.getElementById('team1-name-input').value || 'ทีม 1', team2: document.getElementById('team2-name-input').value || 'ทีม 2' }
             };
             updateScoreboard(); updateSetScoresDisplay();
+            updateMatchSummary(); // ⭐️ เรียกใช้ฟังก์ชันเพื่อรีเซ็ตข้อความสรุป ⭐️
             winnerText.textContent = 'ยังไม่มีผู้ชนะ';
             document.querySelectorAll('.score-controls button').forEach(btn => btn.disabled = false);
             for (let i = 1; i <= 3; i++) { document.getElementById(`team1-timeout-${i}`).disabled = (i !== 1); document.getElementById(`team2-timeout-${i}`).disabled = (i !== 1); }
@@ -328,7 +339,11 @@
                 link.click();
             });
         }
-        updateTeamNames(); updateScoreboard();
+        
+        // ⭐️ เรียกใช้ฟังก์ชันครั้งแรกเมื่อเปิดหน้าเว็บ ⭐️
+        updateMatchSummary();
+        updateTeamNames(); 
+        updateScoreboard();
     </script>
 </body>
 </html>
