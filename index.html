@@ -41,24 +41,11 @@
             box-shadow: 0 4px D12px rgba(0, 0, 0, 0.1);
             padding: 25px;
             box-sizing: border-box;
+            position: relative;
         }
 
-        header h1 {
-            text-align: center;
-            color: var(--primary-color);
-            margin-bottom: 20px;
-            font-size: 2em;
-        }
-
-        .match-info {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 25px;
-            border-bottom: 2px solid #e0e0e0;
-            padding-bottom: 20px;
-        }
-
+        header h1 { text-align: center; color: var(--primary-color); margin-bottom: 20px; font-size: 2em; }
+        .match-info { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; border-bottom: 2px solid #e0e0e0; padding-bottom: 20px; }
         .match-info div { display: flex; flex-direction: column; }
         .match-info label { font-weight: bold; margin-bottom: 5px; color: var(--light-text); }
         .match-info input { padding: 8px; border: 1px solid #ccc; border-radius: 6px; font-family: 'Sarabun', sans-serif; font-size: 1em; }
@@ -74,14 +61,12 @@
 
         .score-controls button { width: 50px; height: 50px; font-size: 2em; margin: 0 10px; border: none; border-radius: 50%; cursor: pointer; color: white; transition: background-color 0.3s; }
         .btn-plus { background-color: #28a745; }
-        .btn-plus:hover { background-color: #218838; }
         .btn-minus { background-color: #dc3545; }
-        .btn-minus:hover { background-color: #c82333; }
         
         .timeout-sets { margin-top: 20px; }
         .timeout-sets h3, .sets-won h3 { font-size: 1.1em; margin-bottom: 10px; color: var(--light-text); }
         .timeout-btn { padding: 8px 15px; font-size: 1em; border-radius: 6px; border: 1px solid var(--primary-color); background-color: var(--container-bg); color: var(--primary-color); cursor: pointer; margin: 5px 5px; }
-        .timeout-btn:disabled { background-color: #e9ecef; border-color: #ced4da; color: #adb5bd; cursor: not-allowed; }
+        .timeout-btn:disabled { background-color: #e9ecef; border-color: #ced4da; color: #adb5bd; }
         
         .sets-won-display { font-size: 2em; font-weight: bold; color: #ff9800; }
 
@@ -89,24 +74,9 @@
         .match-result h2 { font-size: 1.8em; color: #1967d2; margin-bottom: 10px; }
         #winner-text { font-size: 1.4em; font-weight: bold; min-height: 30px; }
         
-        /* ⭐️ CSS ที่เพิ่มเข้ามาสำหรับแสดงผลคะแนนรายเซต ⭐️ */
-        #set-scores-display {
-            margin-top: 15px;
-            font-size: 1.1em;
-            color: var(--dark-text);
-        }
-        #set-scores-display p {
-            margin: 5px 0;
-            font-weight: bold;
-        }
-        #set-scores-display span {
-            font-weight: normal;
-            background-color: #fff;
-            padding: 2px 8px;
-            border-radius: 4px;
-            margin-left: 10px;
-        }
-        /* ⭐️ จบส่วน CSS ⭐️ */
+        #set-scores-display { margin-top: 15px; font-size: 1.1em; color: var(--dark-text); }
+        #set-scores-display p { margin: 5px 0; font-weight: bold; }
+        #set-scores-display span { font-weight: normal; background-color: #fff; padding: 2px 8px; border-radius: 4px; margin-left: 10px; }
 
         .signature-section { text-align: center; margin-top: 30px; padding-top: 20px; border-top: 2px solid #e0e0e0; }
         .signature-section h2 { font-size: 1.5em; color: var(--light-text); margin-bottom: 25px; }
@@ -117,11 +87,40 @@
         .controls { text-align: center; margin-top: 30px; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
         .controls button { padding: 12px 25px; font-size: 1.2em; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; transition: background-color 0.3s; }
         .reset-btn { background-color: #ffc107; color: #212529; }
-        .reset-btn:hover { background-color: #e0a800; }
         .save-btn { background-color: var(--primary-color); color: var(--container-bg); }
-        .save-btn:hover { background-color: #1765c4; }
 
         footer { text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e0e0e0; color: var(--light-text); }
+        
+        /* ⭐️ CSS ที่เพิ่มเข้ามาสำหรับ Pop-up ⭐️ */
+        #set-winner-notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 10px;
+            text-align: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+        #set-winner-notification.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        #set-winner-notification h3 {
+            margin-top: 0;
+            font-size: 1.8em;
+            color: #ffc107;
+        }
+        #set-winner-notification p {
+            margin: 5px 0;
+            font-size: 1.2em;
+        }
+        /* ⭐️ จบส่วน CSS ⭐️ */
         
         @media (max-width: 768px) {
             body { padding: 10px; }
@@ -137,71 +136,44 @@
     </style>
 </head>
 <body>
+    
+    <div id="set-winner-notification"></div>
+
     <div id="capture-wrapper">
         <div class="container" id="capture-area">
             <header>
                 <h1>ใบลงคะแนนตะกร้อ</h1>
             </header>
-    
             <section class="match-info">
                 <div> <label for="match-type">ประเภท</label> <input type="text" id="match-type" placeholder="เช่น ชาย, หญิง"> </div>
                 <div> <label for="match-round">รอบ</label> <input type="text" id="match-round" placeholder="เช่น รอบชิงชนะเลิศ"> </div>
                 <div> <label for="match-group">สาย</label> <input type="text" id="match-group" placeholder="เช่น A, B"> </div>
                 <div> <label for="match-number">คู่ที่</label> <input type="text" id="match-number" placeholder="เช่น 1, 2"> </div>
             </section>
-    
             <section class="teams">
                 <input type="text" id="team1-name-input" placeholder="ชื่อทีมที่ 1" onkeyup="updateTeamNames()">
                 <span>VS</span>
                 <input type="text" id="team2-name-input" placeholder="ชื่อทีมที่ 2" onkeyup="updateTeamNames()">
             </section>
-    
             <div class="scoreboard">
                 <div class="team-panel">
-                    <div id="team1-name-display" class="team-name">ทีม 1</div>
-                    <div id="team1-score" class="score">0</div>
-                    <div class="score-controls">
-                        <button class="btn-minus" onclick="changeScore('team1', -1)">-</button>
-                        <button class="btn-plus" onclick="changeScore('team1', 1)">+</button>
-                    </div>
-                    <div class="timeout-sets">
-                        <h3>เวลานอก</h3>
-                        <button id="team1-timeout-1" class="timeout-btn" onclick="takeTimeout('team1', 1)">เซต 1</button>
-                        <button id="team1-timeout-2" class="timeout-btn" onclick="takeTimeout('team1', 2)" disabled>เซต 2</button>
-                        <button id="team1-timeout-3" class="timeout-btn" onclick="takeTimeout('team1', 3)" disabled>เซต 3</button>
-                    </div>
-                    <div class="sets-won">
-                        <h3>เซตที่ชนะ</h3>
-                        <div id="team1-sets-won" class="sets-won-display">0</div>
-                    </div>
+                    <div id="team1-name-display" class="team-name">ทีม 1</div> <div id="team1-score" class="score">0</div>
+                    <div class="score-controls"> <button class="btn-minus" onclick="changeScore('team1', -1)">-</button> <button class="btn-plus" onclick="changeScore('team1', 1)">+</button> </div>
+                    <div class="timeout-sets"> <h3>เวลานอก</h3> <button id="team1-timeout-1" class="timeout-btn" onclick="takeTimeout('team1', 1)">เซต 1</button> <button id="team1-timeout-2" class="timeout-btn" onclick="takeTimeout('team1', 2)" disabled>เซต 2</button> <button id="team1-timeout-3" class="timeout-btn" onclick="takeTimeout('team1', 3)" disabled>เซต 3</button> </div>
+                    <div class="sets-won"> <h3>เซตที่ชนะ</h3> <div id="team1-sets-won" class="sets-won-display">0</div> </div>
                 </div>
                 <div class="team-panel">
-                    <div id="team2-name-display" class="team-name">ทีม 2</div>
-                    <div id="team2-score" class="score">0</div>
-                    <div class="score-controls">
-                        <button class="btn-minus" onclick="changeScore('team2', -1)">-</button>
-                        <button class="btn-plus" onclick="changeScore('team2', 1)">+</button>
-                    </div>
-                    <div class="timeout-sets">
-                        <h3>เวลานอก</h3>
-                        <button id="team2-timeout-1" class="timeout-btn" onclick="takeTimeout('team2', 1)">เซต 1</button>
-                        <button id="team2-timeout-2" class="timeout-btn" onclick="takeTimeout('team2', 2)" disabled>เซต 2</button>
-                        <button id="team2-timeout-3" class="timeout-btn" onclick="takeTimeout('team2', 3)" disabled>เซต 3</button>
-                    </div>
-                    <div class="sets-won">
-                        <h3>เซตที่ชนะ</h3>
-                        <div id="team2-sets-won" class="sets-won-display">0</div>
-                    </div>
+                    <div id="team2-name-display" class="team-name">ทีม 2</div> <div id="team2-score" class="score">0</div>
+                    <div class="score-controls"> <button class="btn-minus" onclick="changeScore('team2', -1)">-</button> <button class="btn-plus" onclick="changeScore('team2', 1)">+</button> </div>
+                    <div class="timeout-sets"> <h3>เวลานอก</h3> <button id="team2-timeout-1" class="timeout-btn" onclick="takeTimeout('team2', 1)">เซต 1</button> <button id="team2-timeout-2" class="timeout-btn" onclick="takeTimeout('team2', 2)" disabled>เซต 2</button> <button id="team2-timeout-3" class="timeout-btn" onclick="takeTimeout('team2', 3)" disabled>เซต 3</button> </div>
+                    <div class="sets-won"> <h3>เซตที่ชนะ</h3> <div id="team2-sets-won" class="sets-won-display">0</div> </div>
                 </div>
             </div>
-    
             <section class="match-result">
                 <h2>ผลการแข่งขัน</h2>
                 <div id="winner-text">ยังไม่มีผู้ชนะ</div>
-                
                 <div id="set-scores-display"></div>
-                </section>
-    
+            </section>
             <section class="signature-section">
                 <h2>กรรมการผู้ชี้ขาด</h2>
                 <div class="signature-line">
@@ -209,12 +181,10 @@
                     <input type="text" id="referee-name" placeholder=".................................................................">
                 </div>
             </section>
-    
             <footer>
                 <p>© 2025 | โปรแกรมบันทึกคะแนนตะกร้อ | พัฒนาโดย คู่หูเขียนโค้ด</p>
             </footer>
         </div>
-    
         <div class="controls">
             <button class="save-btn" onclick="saveAsImage()">บันทึกเป็นรูปภาพ</button>
             <button class="reset-btn" onclick="resetMatch()">เริ่มการแข่งขันใหม่</button>
@@ -222,29 +192,15 @@
     </div>
 
     <script>
-        const NORMAL_SET_SCORE = 21;
-        const TIEBREAK_SET_SCORE = 11; 
-        const WIN_BY = 2;
-        const MAX_SETS = 2;
-
+        const NORMAL_SET_SCORE = 21; const TIEBREAK_SET_SCORE = 11; const WIN_BY = 2; const MAX_SETS = 2;
         let state = {
-            currentSet: 1,
-            scores: { team1: 0, team2: 0 },
-            setsWon: { team1: 0, team2: 0 },
-            // ⭐️ state ที่เพิ่มเข้ามาสำหรับเก็บผลคะแนน ⭐️
-            setResults: [], 
-            timeouts: {
-                team1: [false, false, false],
-                team2: [false, false, false]
-            },
-            matchOver: false,
-            teamNames: { team1: 'ทีม 1', team2: 'ทีม 2' }
+            currentSet: 1, scores: { team1: 0, team2: 0 }, setsWon: { team1: 0, team2: 0 },
+            setResults: [], timeouts: { team1: [false, false, false], team2: [false, false, false] },
+            matchOver: false, teamNames: { team1: 'ทีม 1', team2: 'ทีม 2' }
         };
-
         const scoreDisplays = { team1: document.getElementById('team1-score'), team2: document.getElementById('team2-score') };
         const setsWonDisplays = { team1: document.getElementById('team1-sets-won'), team2: document.getElementById('team2-sets-won') };
         const winnerText = document.getElementById('winner-text');
-        // ⭐️ element ใหม่สำหรับแสดงผล ⭐️
         const setScoresDisplay = document.getElementById('set-scores-display');
 
         function updateTeamNames() {
@@ -263,10 +219,8 @@
         }
 
         function updateScoreboard() {
-            scoreDisplays.team1.textContent = state.scores.team1;
-            scoreDisplays.team2.textContent = state.scores.team2;
-            setsWonDisplays.team1.textContent = state.setsWon.team1;
-            setsWonDisplays.team2.textContent = state.setsWon.team2;
+            scoreDisplays.team1.textContent = state.scores.team1; scoreDisplays.team2.textContent = state.scores.team2;
+            setsWonDisplays.team1.textContent = state.setsWon.team1; setsWonDisplays.team2.textContent = state.setsWon.team2;
         }
         
         function takeTimeout(team, set) {
@@ -279,37 +233,50 @@
         }
 
         function checkSetWinner() {
-            const { team1, team2 } = state.scores;
-            let winner = null;
+            const { team1, team2 } = state.scores; let winner = null;
             const requiredScore = (state.currentSet === 3) ? TIEBREAK_SET_SCORE : NORMAL_SET_SCORE;
-
             if (team1 >= requiredScore && team1 >= team2 + WIN_BY) { winner = 'team1'; } 
             else if (team2 >= requiredScore && team2 >= team1 + WIN_BY) { winner = 'team2'; }
-
             if (winner) { handleSetWin(winner); }
         }
 
-        // ⭐️ ฟังก์ชันที่แก้ไขเพื่อบันทึกคะแนน ⭐️
+        // --- ⭐️ ฟังก์ชันที่แก้ไขเพื่อแสดง Pop-up ⭐️ ---
         function handleSetWin(winner) {
-            // บันทึกผลคะแนนของเซตปัจจุบัน
             const scoreString = `${state.scores.team1} - ${state.scores.team2}`;
-            state.setResults.push(scoreString);
-            updateSetScoresDisplay(); // อัปเดตการแสดงผล
+            const winnerName = state.teamNames[winner];
+            
+            // แสดง Pop-up แจ้งเตือน
+            showSetWinnerNotification(winnerName, scoreString);
 
-            // ดำเนินการต่อ
+            state.setResults.push(scoreString);
+            updateSetScoresDisplay();
             state.setsWon[winner]++;
             updateScoreboard();
 
             if (state.setsWon[winner] >= MAX_SETS) {
                 handleMatchWin(winner);
             } else {
-                startNextSet();
+                // หน่วงเวลาเล็กน้อยก่อนเริ่มเซตใหม่เพื่อให้ผู้ใช้เห็น Pop-up
+                setTimeout(startNextSet, 1000); 
             }
         }
+        // --- ⭐️ จบส่วนแก้ไข ⭐️ ---
 
-        // ⭐️ ฟังก์ชันใหม่สำหรับอัปเดตการแสดงผลคะแนนรายเซต ⭐️
+        // --- ⭐️ ฟังก์ชันใหม่สำหรับควบคุม Pop-up ⭐️ ---
+        function showSetWinnerNotification(winnerName, score) {
+            const notification = document.getElementById('set-winner-notification');
+            notification.innerHTML = `<h3>ผู้ชนะเซตที่ ${state.currentSet}</h3><p>${winnerName}</p><p>ด้วยคะแนน ${score}</p>`;
+            notification.classList.add('show');
+
+            // ซ่อน Pop-up หลังจาก 4 วินาที
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 4000);
+        }
+        // --- ⭐️ จบฟังก์ชันใหม่ ⭐️ ---
+
         function updateSetScoresDisplay() {
-            setScoresDisplay.innerHTML = ''; // ล้างข้อมูลเก่า
+            setScoresDisplay.innerHTML = '';
             if (state.setResults.length > 0) {
                  state.setResults.forEach((score, index) => {
                     const p = document.createElement('p');
@@ -323,7 +290,6 @@
             state.currentSet++;
             state.scores = { team1: 0, team2: 0 };
             updateScoreboard();
-
             if(state.currentSet <= 3) {
                 document.getElementById(`team1-timeout-${state.currentSet}`).disabled = false;
                 document.getElementById(`team2-timeout-${state.currentSet}`).disabled = false;
@@ -337,50 +303,40 @@
             document.querySelectorAll('.score-controls button, .timeout-btn').forEach(btn => btn.disabled = true);
         }
 
-        // ⭐️ ฟังก์ชันที่แก้ไขเพื่อล้างข้อมูลคะแนนรายเซต ⭐️
         function resetMatch() {
             state = {
-                currentSet: 1,
-                scores: { team1: 0, team2: 0 },
-                setsWon: { team1: 0, team2: 0 },
-                setResults: [], // ล้างข้อมูลที่บันทึกไว้
-                timeouts: {
-                    team1: [false, false, false],
-                    team2: [false, false, false]
-                },
+                currentSet: 1, scores: { team1: 0, team2: 0 }, setsWon: { team1: 0, team2: 0 }, setResults: [], 
+                timeouts: { team1: [false, false, false], team2: [false, false, false] },
                 matchOver: false,
-                teamNames: { 
-                    team1: document.getElementById('team1-name-input').value || 'ทีม 1',
-                    team2: document.getElementById('team2-name-input').value || 'ทีม 2'
-                }
+                teamNames: { team1: document.getElementById('team1-name-input').value || 'ทีม 1', team2: document.getElementById('team2-name-input').value || 'ทีม 2' }
             };
-            
-            updateScoreboard();
-            updateSetScoresDisplay(); // อัปเดตการแสดงผล (ล้างของเก่า)
+            updateScoreboard(); updateSetScoresDisplay();
             winnerText.textContent = 'ยังไม่มีผู้ชนะ';
-            
             document.querySelectorAll('.score-controls button').forEach(btn => btn.disabled = false);
-            for (let i = 1; i <= 3; i++) {
-                document.getElementById(`team1-timeout-${i}`).disabled = (i !== 1);
-                document.getElementById(`team2-timeout-${i}`).disabled = (i !== 1);
-            }
+            for (let i = 1; i <= 3; i++) { document.getElementById(`team1-timeout-${i}`).disabled = (i !== 1); document.getElementById(`team2-timeout-${i}`).disabled = (i !== 1); }
         }
         
         function saveAsImage() {
-            const controls = document.querySelector('.controls');
-            controls.style.display = 'none';
+            const elementsToHide = document.querySelectorAll('.match-info, .teams, .scoreboard, footer');
+            elementsToHide.forEach(el => el.style.display = 'none');
+            const matchType = document.getElementById('match-type').value || 'ประเภท';
+            const matchRound = document.getElementById('match-round').value || 'รอบ';
+            const matchGroup = document.getElementById('match-group').value || 'สาย';
+            const matchNumber = document.getElementById('match-number').value || 'คู่ที่';
+            const filename = `ผลตะกร้อ-${matchType}-${matchRound}-${matchGroup}-${matchNumber}.jpg`;
             const captureElement = document.querySelector('.container');
-            html2canvas(captureElement, { scale: 2, backgroundColor: null }).then(canvas => {
-                controls.style.display = 'flex';
+            html2canvas(captureElement, { scale: 2, backgroundColor: '#ffffff' }).then(canvas => {
+                document.querySelector('.match-info').style.display = 'grid';
+                document.querySelector('.teams').style.display = 'grid';
+                document.querySelector('.scoreboard').style.display = 'grid';
+                document.querySelector('footer').style.display = 'block';
                 const link = document.createElement('a');
                 link.href = canvas.toDataURL('image/jpeg', 0.9);
-                link.download = 'ผลการแข่งขันตะกร้อ.jpg';
+                link.download = filename;
                 link.click();
             });
         }
-        
-        updateTeamNames();
-        updateScoreboard();
+        updateTeamNames(); updateScoreboard();
     </script>
 </body>
 </html>
