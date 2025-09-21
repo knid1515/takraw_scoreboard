@@ -59,253 +59,84 @@
             padding-bottom: 20px;
         }
 
-        .match-info div {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .match-info label {
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: var(--light-text);
-        }
-
-        .match-info input {
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-family: 'Sarabun', sans-serif;
-            font-size: 1em;
-        }
+        .match-info div { display: flex; flex-direction: column; }
+        .match-info label { font-weight: bold; margin-bottom: 5px; color: var(--light-text); }
+        .match-info input { padding: 8px; border: 1px solid #ccc; border-radius: 6px; font-family: 'Sarabun', sans-serif; font-size: 1em; }
         
-        .teams {
-            display: grid;
-            grid-template-columns: 1fr 80px 1fr;
-            align-items: center;
-            text-align: center;
-            margin-bottom: 20px;
-        }
+        .teams { display: grid; grid-template-columns: 1fr 80px 1fr; align-items: center; text-align: center; margin-bottom: 20px; }
+        .teams input { font-size: 1.2em; font-weight: bold; text-align: center; border: none; border-bottom: 2px solid var(--primary-color); padding: 5px; width: 100%; }
+        .teams span { font-size: 1.5em; font-weight: bold; }
 
-        .teams input {
-            font-size: 1.2em;
-            font-weight: bold;
-            text-align: center;
-            border: none;
-            border-bottom: 2px solid var(--primary-color);
-            padding: 5px;
-            width: 100%;
-        }
-        
-        .teams span {
-            font-size: 1.5em;
-            font-weight: bold;
-        }
+        .scoreboard { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; text-align: center; }
+        .team-panel { background-color: var(--panel-bg); padding: 20px; border-radius: 8px; border: 1px solid var(--border-color); }
+        .team-name { font-size: 1.5em; font-weight: bold; margin-bottom: 15px; color: var(--primary-color); min-height: 36px; word-wrap: break-word; }
+        .score { font-size: 4.5em; font-weight: bold; margin-bottom: 20px; }
 
-        .scoreboard {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            text-align: center;
-        }
-        
-        .team-panel {
-            background-color: var(--panel-bg);
-            padding: 20px;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-        }
-        
-        .team-name {
-            font-size: 1.5em;
-            font-weight: bold;
-            margin-bottom: 15px;
-            color: var(--primary-color);
-            min-height: 36px;
-            word-wrap: break-word;
-        }
-
-        .score {
-            font-size: 4.5em;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-
-        .score-controls button {
-            width: 50px;
-            height: 50px;
-            font-size: 2em;
-            margin: 0 10px;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            color: white;
-            transition: background-color 0.3s;
-        }
-
+        .score-controls button { width: 50px; height: 50px; font-size: 2em; margin: 0 10px; border: none; border-radius: 50%; cursor: pointer; color: white; transition: background-color 0.3s; }
         .btn-plus { background-color: #28a745; }
         .btn-plus:hover { background-color: #218838; }
-
         .btn-minus { background-color: #dc3545; }
         .btn-minus:hover { background-color: #c82333; }
         
-        .timeout-sets {
-            margin-top: 20px;
-        }
+        .timeout-sets { margin-top: 20px; }
+        .timeout-sets h3, .sets-won h3 { font-size: 1.1em; margin-bottom: 10px; color: var(--light-text); }
+        .timeout-btn { padding: 8px 15px; font-size: 1em; border-radius: 6px; border: 1px solid var(--primary-color); background-color: var(--container-bg); color: var(--primary-color); cursor: pointer; margin: 5px 5px; }
+        .timeout-btn:disabled { background-color: #e9ecef; border-color: #ced4da; color: #adb5bd; cursor: not-allowed; }
+        
+        .sets-won-display { font-size: 2em; font-weight: bold; color: #ff9800; }
 
-        .timeout-sets h3, .sets-won h3 {
+        .match-result { text-align: center; margin-top: 30px; padding: 20px; background-color: #e8f0fe; border-radius: 8px; border: 1px solid #d2e3fc; }
+        .match-result h2 { font-size: 1.8em; color: #1967d2; margin-bottom: 10px; }
+        #winner-text { font-size: 1.4em; font-weight: bold; min-height: 30px; }
+        
+        /* ⭐️ CSS ที่เพิ่มเข้ามาสำหรับแสดงผลคะแนนรายเซต ⭐️ */
+        #set-scores-display {
+            margin-top: 15px;
             font-size: 1.1em;
-            margin-bottom: 10px;
-            color: var(--light-text);
+            color: var(--dark-text);
         }
-        
-        .timeout-btn {
-            padding: 8px 15px;
-            font-size: 1em;
-            border-radius: 6px;
-            border: 1px solid var(--primary-color);
-            background-color: var(--container-bg);
-            color: var(--primary-color);
-            cursor: pointer;
-            margin: 5px 5px;
-        }
-        
-        .timeout-btn:disabled {
-            background-color: #e9ecef;
-            border-color: #ced4da;
-            color: #adb5bd;
-            cursor: not-allowed;
-        }
-        
-        .sets-won-display {
-            font-size: 2em;
+        #set-scores-display p {
+            margin: 5px 0;
             font-weight: bold;
-            color: #ff9800;
         }
+        #set-scores-display span {
+            font-weight: normal;
+            background-color: #fff;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-left: 10px;
+        }
+        /* ⭐️ จบส่วน CSS ⭐️ */
 
-        .match-result {
-            text-align: center;
-            margin-top: 30px;
-            padding: 20px;
-            background-color: #e8f0fe;
-            border-radius: 8px;
-            border: 1px solid #d2e3fc;
-        }
+        .signature-section { text-align: center; margin-top: 30px; padding-top: 20px; border-top: 2px solid #e0e0e0; }
+        .signature-section h2 { font-size: 1.5em; color: var(--light-text); margin-bottom: 25px; }
+        .signature-line { display: flex; justify-content: center; align-items: center; }
+        .signature-line label { font-size: 1.2em; font-weight: bold; margin-right: 10px; }
+        .signature-line input { border: none; border-bottom: 1px solid var(--dark-text); width: 250px; font-size: 1.1em; font-family: 'Sarabun', sans-serif; text-align: center; padding: 5px; }
         
-        .match-result h2 {
-            font-size: 1.8em;
-            color: #1967d2;
-            margin-bottom: 10px;
-        }
-        
-        #winner-text {
-            font-size: 1.4em;
-            font-weight: bold;
-            min-height: 30px;
-        }
-        
-        .signature-section {
-            text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 2px solid #e0e0e0;
-        }
-
-        .signature-section h2 {
-            font-size: 1.5em;
-            color: var(--light-text);
-            margin-bottom: 25px;
-        }
-        
-        .signature-line {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .signature-line label {
-            font-size: 1.2em;
-            font-weight: bold;
-            margin-right: 10px;
-        }
-        
-        .signature-line input {
-            border: none;
-            border-bottom: 1px solid var(--dark-text);
-            width: 250px;
-            font-size: 1.1em;
-            font-family: 'Sarabun', sans-serif;
-            text-align: center;
-            padding: 5px;
-        }
-        
-        .controls {
-            text-align: center;
-            margin-top: 30px;
-            display: flex;
-            flex-wrap: wrap; 
-            justify-content: center;
-            gap: 15px;
-        }
-        
-        .controls button {
-             padding: 12px 25px;
-            font-size: 1.2em;
-            font-weight: bold;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
+        .controls { text-align: center; margin-top: 30px; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
+        .controls button { padding: 12px 25px; font-size: 1.2em; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; transition: background-color 0.3s; }
         .reset-btn { background-color: #ffc107; color: #212529; }
         .reset-btn:hover { background-color: #e0a800; }
-        
         .save-btn { background-color: var(--primary-color); color: var(--container-bg); }
         .save-btn:hover { background-color: #1765c4; }
 
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #e0e0e0;
-            color: var(--light-text);
-        }
+        footer { text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e0e0e0; color: var(--light-text); }
         
         @media (max-width: 768px) {
-            body {
-                padding: 10px; 
-            }
-            .container {
-                padding: 15px;
-            }
-            header h1 {
-                font-size: 1.8em; 
-            }
-            .scoreboard {
-                grid-template-columns: 1fr; 
-            }
-            .teams {
-                 grid-template-columns: 1fr 50px 1fr; 
-            }
-             .teams input {
-                font-size: 1.1em;
-            }
-            .score {
-                font-size: 4em; 
-            }
-            .controls {
-                flex-direction: column; 
-                gap: 10px;
-            }
-             .controls button {
-                width: 100%; 
-            }
+            body { padding: 10px; }
+            .container { padding: 15px; }
+            header h1 { font-size: 1.8em; }
+            .scoreboard { grid-template-columns: 1fr; }
+            .teams { grid-template-columns: 1fr 50px 1fr; }
+            .teams input { font-size: 1.1em; }
+            .score { font-size: 4em; }
+            .controls { flex-direction: column; gap: 10px; }
+            .controls button { width: 100%; }
         }
-
     </style>
 </head>
 <body>
-
     <div id="capture-wrapper">
         <div class="container" id="capture-area">
             <header>
@@ -313,22 +144,10 @@
             </header>
     
             <section class="match-info">
-                <div>
-                    <label for="match-type">ประเภท</label>
-                    <input type="text" id="match-type" placeholder="เช่น ชาย, หญิง">
-                </div>
-                <div>
-                    <label for="match-round">รอบ</label>
-                    <input type="text" id="match-round" placeholder="เช่น รอบชิงชนะเลิศ">
-                </div>
-                <div>
-                    <label for="match-group">สาย</label>
-                    <input type="text" id="match-group" placeholder="เช่น A, B">
-                </div>
-                <div>
-                    <label for="match-number">คู่ที่</label>
-                    <input type="text" id="match-number" placeholder="เช่น 1, 2">
-                </div>
+                <div> <label for="match-type">ประเภท</label> <input type="text" id="match-type" placeholder="เช่น ชาย, หญิง"> </div>
+                <div> <label for="match-round">รอบ</label> <input type="text" id="match-round" placeholder="เช่น รอบชิงชนะเลิศ"> </div>
+                <div> <label for="match-group">สาย</label> <input type="text" id="match-group" placeholder="เช่น A, B"> </div>
+                <div> <label for="match-number">คู่ที่</label> <input type="text" id="match-number" placeholder="เช่น 1, 2"> </div>
             </section>
     
             <section class="teams">
@@ -356,7 +175,6 @@
                         <div id="team1-sets-won" class="sets-won-display">0</div>
                     </div>
                 </div>
-    
                 <div class="team-panel">
                     <div id="team2-name-display" class="team-name">ทีม 2</div>
                     <div id="team2-score" class="score">0</div>
@@ -380,7 +198,9 @@
             <section class="match-result">
                 <h2>ผลการแข่งขัน</h2>
                 <div id="winner-text">ยังไม่มีผู้ชนะ</div>
-            </section>
+                
+                <div id="set-scores-display"></div>
+                </section>
     
             <section class="signature-section">
                 <h2>กรรมการผู้ชี้ขาด</h2>
@@ -401,20 +221,18 @@
         </div>
     </div>
 
-
     <script>
-        // --- ⭐️ ส่วนที่แก้ไข ⭐️ ---
-        const NORMAL_SET_SCORE = 21; // คะแนนสำหรับเซตที่ 1 และ 2
-        const TIEBREAK_SET_SCORE = 11; // คะแนนสำหรับเซตที่ 3 (ครึ่งเดียว)
-        // หมายเหตุ: ตามกติกาปกติ เซต 3 อาจใช้ 15 คะแนน หากต้องการเปลี่ยน ให้แก้เลข 11 เป็น 15
-        const WIN_BY = 2; // ต้องชนะห่าง 2 คะแนน
-        const MAX_SETS = 2; // ชนะ 2 ใน 3 เซต
-        // --- จบส่วนที่แก้ไข ---
+        const NORMAL_SET_SCORE = 21;
+        const TIEBREAK_SET_SCORE = 11; 
+        const WIN_BY = 2;
+        const MAX_SETS = 2;
 
         let state = {
             currentSet: 1,
             scores: { team1: 0, team2: 0 },
             setsWon: { team1: 0, team2: 0 },
+            // ⭐️ state ที่เพิ่มเข้ามาสำหรับเก็บผลคะแนน ⭐️
+            setResults: [], 
             timeouts: {
                 team1: [false, false, false],
                 team2: [false, false, false]
@@ -423,15 +241,11 @@
             teamNames: { team1: 'ทีม 1', team2: 'ทีม 2' }
         };
 
-        const scoreDisplays = {
-            team1: document.getElementById('team1-score'),
-            team2: document.getElementById('team2-score')
-        };
-        const setsWonDisplays = {
-            team1: document.getElementById('team1-sets-won'),
-            team2: document.getElementById('team2-sets-won')
-        };
+        const scoreDisplays = { team1: document.getElementById('team1-score'), team2: document.getElementById('team2-score') };
+        const setsWonDisplays = { team1: document.getElementById('team1-sets-won'), team2: document.getElementById('team2-sets-won') };
         const winnerText = document.getElementById('winner-text');
+        // ⭐️ element ใหม่สำหรับแสดงผล ⭐️
+        const setScoresDisplay = document.getElementById('set-scores-display');
 
         function updateTeamNames() {
             state.teamNames.team1 = document.getElementById('team1-name-input').value || 'ทีม 1';
@@ -442,11 +256,8 @@
 
         function changeScore(team, points) {
             if (state.matchOver) return;
-
             state.scores[team] += points;
-            if (state.scores[team] < 0) {
-                state.scores[team] = 0;
-            }
+            if (state.scores[team] < 0) { state.scores[team] = 0; }
             updateScoreboard();
             checkSetWinner();
         }
@@ -460,7 +271,6 @@
         
         function takeTimeout(team, set) {
             if (state.matchOver || set !== state.currentSet) return;
-            
             const timeoutIndex = set - 1;
             if (!state.timeouts[team][timeoutIndex]) {
                 state.timeouts[team][timeoutIndex] = true;
@@ -468,28 +278,25 @@
             }
         }
 
-        // --- ⭐️ ฟังก์ชันที่แก้ไข ⭐️ ---
         function checkSetWinner() {
             const { team1, team2 } = state.scores;
             let winner = null;
-
-            // ตรวจสอบว่าต้องใช้คะแนนชนะเท่าไหร่ในเซตปัจจุบัน
             const requiredScore = (state.currentSet === 3) ? TIEBREAK_SET_SCORE : NORMAL_SET_SCORE;
 
-            // ตรวจสอบผู้ชนะโดยใช้คะแนนที่กำหนดไว้
-            if (team1 >= requiredScore && team1 >= team2 + WIN_BY) {
-                winner = 'team1';
-            } else if (team2 >= requiredScore && team2 >= team1 + WIN_BY) {
-                winner = 'team2';
-            }
+            if (team1 >= requiredScore && team1 >= team2 + WIN_BY) { winner = 'team1'; } 
+            else if (team2 >= requiredScore && team2 >= team1 + WIN_BY) { winner = 'team2'; }
 
-            if (winner) {
-                handleSetWin(winner);
-            }
+            if (winner) { handleSetWin(winner); }
         }
-        // --- จบส่วนที่แก้ไข ---
 
+        // ⭐️ ฟังก์ชันที่แก้ไขเพื่อบันทึกคะแนน ⭐️
         function handleSetWin(winner) {
+            // บันทึกผลคะแนนของเซตปัจจุบัน
+            const scoreString = `${state.scores.team1} - ${state.scores.team2}`;
+            state.setResults.push(scoreString);
+            updateSetScoresDisplay(); // อัปเดตการแสดงผล
+
+            // ดำเนินการต่อ
             state.setsWon[winner]++;
             updateScoreboard();
 
@@ -497,6 +304,18 @@
                 handleMatchWin(winner);
             } else {
                 startNextSet();
+            }
+        }
+
+        // ⭐️ ฟังก์ชันใหม่สำหรับอัปเดตการแสดงผลคะแนนรายเซต ⭐️
+        function updateSetScoresDisplay() {
+            setScoresDisplay.innerHTML = ''; // ล้างข้อมูลเก่า
+            if (state.setResults.length > 0) {
+                 state.setResults.forEach((score, index) => {
+                    const p = document.createElement('p');
+                    p.innerHTML = `เซตที่ ${index + 1}: <span>${score}</span>`;
+                    setScoresDisplay.appendChild(p);
+                });
             }
         }
 
@@ -515,15 +334,16 @@
             state.matchOver = true;
             const winnerName = state.teamNames[winner];
             winnerText.textContent = `ผู้ชนะคือ ${winnerName} ด้วยคะแนนเซต ${state.setsWon.team1} - ${state.setsWon.team2}`;
-            
             document.querySelectorAll('.score-controls button, .timeout-btn').forEach(btn => btn.disabled = true);
         }
 
+        // ⭐️ ฟังก์ชันที่แก้ไขเพื่อล้างข้อมูลคะแนนรายเซต ⭐️
         function resetMatch() {
             state = {
                 currentSet: 1,
                 scores: { team1: 0, team2: 0 },
                 setsWon: { team1: 0, team2: 0 },
+                setResults: [], // ล้างข้อมูลที่บันทึกไว้
                 timeouts: {
                     team1: [false, false, false],
                     team2: [false, false, false]
@@ -536,6 +356,7 @@
             };
             
             updateScoreboard();
+            updateSetScoresDisplay(); // อัปเดตการแสดงผล (ล้างของเก่า)
             winnerText.textContent = 'ยังไม่มีผู้ชนะ';
             
             document.querySelectorAll('.score-controls button').forEach(btn => btn.disabled = false);
@@ -548,15 +369,9 @@
         function saveAsImage() {
             const controls = document.querySelector('.controls');
             controls.style.display = 'none';
-
             const captureElement = document.querySelector('.container');
-            
-            html2canvas(captureElement, {
-                scale: 2,
-                backgroundColor: null 
-            }).then(canvas => {
+            html2canvas(captureElement, { scale: 2, backgroundColor: null }).then(canvas => {
                 controls.style.display = 'flex';
-
                 const link = document.createElement('a');
                 link.href = canvas.toDataURL('image/jpeg', 0.9);
                 link.download = 'ผลการแข่งขันตะกร้อ.jpg';
