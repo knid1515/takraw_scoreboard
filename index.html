@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>โปรแกรมบันทึกคะแนนตะกร้อ</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap');
+
+        :root {
+            --primary-color: #1a73e8;
+            --dark-text: #202124;
+            --light-text: #5f6368;
+            --background-color: #f0f2f5;
+            --container-bg: #ffffff;
+            --panel-bg: #f8f9fa;
+            --border-color: #dee2e6;
+        }
+
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: var(--background-color);
+            color: var(--dark-text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background-color: var(--container-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px D12px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            box-sizing: border-box;
+        }
+
+        header h1 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+
+        .match-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 20px;
+        }
+
+        .match-info div {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .match-info label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: var(--light-text);
+        }
+
+        .match-info input {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-family: 'Sarabun', sans-serif;
+            font-size: 1em;
+        }
+        
+        .teams {
+            display: grid;
+            grid-template-columns: 1fr 80px 1fr;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .teams input {
+            font-size: 1.2em;
+            font-weight: bold;
+            text-align: center;
+            border: none;
+            border-bottom: 2px solid var(--primary-color);
+            padding: 5px;
+            width: 100%;
+        }
+        
+        .teams span {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .scoreboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            text-align: center;
+        }
+        
+        .team-panel {
+            background-color: var(--panel-bg);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .team-name {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            min-height: 36px;
+            word-wrap: break-word;
+        }
+
+        .score {
+            font-size: 4.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .score-controls button {
+            width: 50px;
+            height: 50px;
+            font-size: 2em;
+            margin: 0 10px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            color: white;
+            transition: background-color 0.3s;
+        }
+
+        .btn-plus { background-color: #28a745; }
+        .btn-plus:hover { background-color: #218838; }
+
+        .btn-minus { background-color: #dc3545; }
+        .btn-minus:hover { background-color: #c82333; }
+        
+        .timeout-sets {
+            margin-top: 20px;
+        }
+
+        .timeout-sets h3, .sets-won h3 {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            color: var(--light-text);
+        }
+        
+        .timeout-btn {
+            padding: 8px 15px;
+            font-size: 1em;
+            border-radius: 6px;
+            border: 1px solid var(--primary-color);
+            background-color: var(--container-bg);
+            color: var(--primary-color);
+            cursor: pointer;
+            margin: 5px 5px;
+        }
+        
+        .timeout-btn:disabled {
+            background-color: #e9ecef;
+            border-color: #ced4da;
+            color: #adb5bd;
+            cursor: not-allowed;
+        }
+        
+        .sets-won-display {
+            font-size: 2em;
+            font-weight: bold;
+            color: #ff9800;
+        }
+
+        .match-result {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #e8f0fe;
+            border-radius: 8px;
+            border: 1px solid #d2e3fc;
+        }
+        
+        .match-result h2 {
+            font-size: 1.8em;
+            color: #1967d2;
+            margin-bottom: 10px;
+        }
+        
+        #winner-text {
+            font-size: 1.4em;
+            font-weight: bold;
+            min-height: 30px;
+        }
+        
+        .signature-section {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .signature-section h2 {
+            font-size: 1.5em;
+            color: var(--light-text);
+            margin-bottom: 25px;
+        }
+        
+        .signature-line {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .signature-line label {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .signature-line input {
+            border: none;
+            border-bottom: 1px solid var(--dark-text);
+            width: 250px;
+            font-size: 1.1em;
+            font-family: 'Sarabun', sans-serif;
+            text-align: center;
+            padding: 5px;
+        }
+        
+        .controls {
+            text-align: center;
+            margin-top: 30px;
+            display: flex;
+            flex-wrap: wrap; 
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .controls button {
+             padding: 12px 25px;
+            font-size: 1.2em;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .reset-btn { background-color: #ffc107; color: #212529; }
+        .reset-btn:hover { background-color: #e0a800; }
+        
+        .save-btn { background-color: var(--primary-color); color: var(--container-bg); }
+        .save-btn:hover { background-color: #1765c4; }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+            color: var(--light-text);
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px; 
+            }
+            .container {
+                padding: 15px;
+            }
+            header h1 {
+                font-size: 1.8em; 
+            }
+            .scoreboard {
+                grid-template-columns: 1fr; 
+            }
+            .teams {
+                 grid-template-columns: 1fr 50px 1fr; 
+            }
+             .teams input {
+                font-size: 1.1em;
+            }
+            .score {
+                font-size: 4em; 
+            }
+            .controls {
+                flex-direction: column; 
+                gap: 10px;
+            }
+             .controls button {
+                width: 100%; 
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="capture-wrapper">
+        <div class="container" id="capture-area">
+            <header>
+                <h1>ใบลงคะแนนตะกร้อ</h1>
+            </header>
+    
+            <section class="match-info">
+                <div>
+                    <label for="match-type">ประเภท</label>
+                    <input type="text" id="match-type" placeholder="เช่น ชาย, หญิง">
+                </div>
+                <div>
+                    <label for="match-round">รอบ</label>
+                    <input type="text" id="match-round" placeholder="เช่น รอบชิงชนะเลิศ">
+                </div>
+                <div>
+                    <label for="match-group">สาย</label>
+                    <input type="text" id="match-group" placeholder="เช่น A, B">
+                </div>
+                <div>
+                    <label for="match-number">คู่ที่</label>
+                    <input type="text" id="match-number" placeholder="เช่น 1, 2">
+                </div>
+            </section>
+    
+            <section class="teams">
+                <input type="text" id="team1-name-input" placeholder="ชื่อทีมที่ 1" onkeyup="updateTeamNames()">
+                <span>VS</span>
+                <input type="text" id="team2-name-input" placeholder="ชื่อทีมที่ 2" onkeyup="updateTeamNames()">
+            </section>
+    
+            <div class="scoreboard">
+                <div class="team-panel">
+                    <div id="team1-name-display" class="team-name">ทีม 1</div>
+                    <div id="team1-score" class="score">0</div>
+                    <div class="score-controls">
+                        <button class="btn-minus" onclick="changeScore('team1', -1)">-</button>
+                        <button class="btn-plus" onclick="changeScore('team1', 1)">+</button>
+                    </div>
+                    <div class="timeout-sets">
+                        <h3>เวลานอก</h3>
+                        <button id="team1-timeout-1" class="timeout-btn" onclick="takeTimeout('team1', 1)">เซต 1</button>
+                        <button id="team1-timeout-2" class="timeout-btn" onclick="takeTimeout('team1', 2)" disabled>เซต 2</button>
+                        <button id="team1-timeout-3" class="timeout-btn" onclick="takeTimeout('team1', 3)" disabled>เซต 3</button>
+                    </div>
+                    <div class="sets-won">
+                        <h3>เซตที่ชนะ</h3>
+                        <div id="team1-sets-won" class="sets-won-display">0</div>
+                    </div>
+                </div>
+    
+                <div class="team-panel">
+                    <div id="team2-name-display" class="team-name">ทีม 2</div>
+                    <div id="team2-score" class="score">0</div>
+                    <div class="score-controls">
+                        <button class="btn-minus" onclick="changeScore('team2', -1)">-</button>
+                        <button class="btn-plus" onclick="changeScore('team2', 1)">+</button>
+                    </div>
+                    <div class="timeout-sets">
+                        <h3>เวลานอก</h3>
+                        <button id="team2-timeout-1" class="timeout-btn" onclick="takeTimeout('team2', 1)">เซต 1</button>
+                        <button id="team2-timeout-2" class="timeout-btn" onclick="takeTimeout('team2', 2)" disabled>เซต 2</button>
+                        <button id="team2-timeout-3" class="timeout-btn" onclick="takeTimeout('team2', 3)" disabled>เซต 3</button>
+                    </div>
+                    <div class="sets-won">
+                        <h3>เซตที่ชนะ</h3>
+                        <div id="team2-sets-won" class="sets-won-display">0</div>
+                    </div>
+                </div>
+            </div>
+    
+            <section class="match-result">
+                <h2>ผลการแข่งขัน</h2>
+                <div id="winner-text">ยังไม่มีผู้ชนะ</div>
+            </section>
+    
+            <section class="signature-section">
+                <h2>กรรมการผู้ชี้ขาด</h2>
+                <div class="signature-line">
+                    <label for="referee-name">ลงชื่อ:</label>
+                    <input type="text" id="referee-name" placeholder=".................................................................">
+                </div>
+            </section>
+    
+            <footer>
+                <p>© 2025 | โปรแกรมบันทึกคะแนนตะกร้อ | พัฒนาโดย คู่หูเขียนโค้ด</p>
+            </footer>
+        </div>
+    
+        <div class="controls">
+            <button class="save-btn" onclick="saveAsImage()">บันทึกเป็นรูปภาพ</button>
+            <button class="reset-btn" onclick="resetMatch()">เริ่มการแข่งขันใหม่</button>
+        </div>
+    </div>
+
+
+    <script>
+        // --- ⭐️ ส่วนที่แก้ไข ⭐️ ---
+        const NORMAL_SET_SCORE = 21; // คะแนนสำหรับเซตที่ 1 และ 2
+        const TIEBREAK_SET_SCORE = 11; // คะแนนสำหรับเซตที่ 3 (ครึ่งเดียว)
+        // หมายเหตุ: ตามกติกาปกติ เซต 3 อาจใช้ 15 คะแนน หากต้องการเปลี่ยน ให้แก้เลข 11 เป็น 15
+        const WIN_BY = 2; // ต้องชนะห่าง 2 คะแนน
+        const MAX_SETS = 2; // ชนะ 2 ใน 3 เซต
+        // --- จบส่วนที่แก้ไข ---
+
+        let state = {
+            currentSet: 1,
+            scores: { team1: 0, team2: 0 },
+            setsWon: { team1: 0, team2: 0 },
+            timeouts: {
+                team1: [false, false, false],
+                team2: [false, false, false]
+            },
+            matchOver: false,
+            teamNames: { team1: 'ทีม 1', team2: 'ทีม 2' }
+        };
+
+        const scoreDisplays = {
+            team1: document.getElementById('team1-score'),
+            team2: document.getElementById('team2-score')
+        };
+        const setsWonDisplays = {
+            team1: document.getElementById('team1-sets-won'),
+            team2: document.getElementById('team2-sets-won')
+        };
+        const winnerText = document.getElementById('winner-text');
+
+        function updateTeamNames() {
+            state.teamNames.team1 = document.getElementById('team1-name-input').value || 'ทีม 1';
+            state.teamNames.team2 = document.getElementById('team2-name-input').value || 'ทีม 2';
+            document.getElementById('team1-name-display').textContent = state.teamNames.team1;
+            document.getElementById('team2-name-display').textContent = state.teamNames.team2;
+        }
+
+        function changeScore(team, points) {
+            if (state.matchOver) return;
+
+            state.scores[team] += points;
+            if (state.scores[team] < 0) {
+                state.scores[team] = 0;
+            }
+            updateScoreboard();
+            checkSetWinner();
+        }
+
+        function updateScoreboard() {
+            scoreDisplays.team1.textContent = state.scores.team1;
+            scoreDisplays.team2.textContent = state.scores.team2;
+            setsWonDisplays.team1.textContent = state.setsWon.team1;
+            setsWonDisplays.team2.textContent = state.setsWon.team2;
+        }
+        
+        function takeTimeout(team, set) {
+            if (state.matchOver || set !== state.currentSet) return;
+            
+            const timeoutIndex = set - 1;
+            if (!state.timeouts[team][timeoutIndex]) {
+                state.timeouts[team][timeoutIndex] = true;
+                document.getElementById(`${team}-timeout-${set}`).disabled = true;
+            }
+        }
+
+        // --- ⭐️ ฟังก์ชันที่แก้ไข ⭐️ ---
+        function checkSetWinner() {
+            const { team1, team2 } = state.scores;
+            let winner = null;
+
+            // ตรวจสอบว่าต้องใช้คะแนนชนะเท่าไหร่ในเซตปัจจุบัน
+            const requiredScore = (state.currentSet === 3) ? TIEBREAK_SET_SCORE : NORMAL_SET_SCORE;
+
+            // ตรวจสอบผู้ชนะโดยใช้คะแนนที่กำหนดไว้
+            if (team1 >= requiredScore && team1 >= team2 + WIN_BY) {
+                winner = 'team1';
+            } else if (team2 >= requiredScore && team2 >= team1 + WIN_BY) {
+                winner = 'team2';
+            }
+
+            if (winner) {
+                handleSetWin(winner);
+            }
+        }
+        // --- จบส่วนที่แก้ไข ---
+
+        function handleSetWin(winner) {
+            state.setsWon[winner]++;
+            updateScoreboard();
+
+            if (state.setsWon[winner] >= MAX_SETS) {
+                handleMatchWin(winner);
+            } else {
+                startNextSet();
+            }
+        }
+
+        function startNextSet() {
+            state.currentSet++;
+            state.scores = { team1: 0, team2: 0 };
+            updateScoreboard();
+
+            if(state.currentSet <= 3) {
+                document.getElementById(`team1-timeout-${state.currentSet}`).disabled = false;
+                document.getElementById(`team2-timeout-${state.currentSet}`).disabled = false;
+            }
+        }
+
+        function handleMatchWin(winner) {
+            state.matchOver = true;
+            const winnerName = state.teamNames[winner];
+            winnerText.textContent = `ผู้ชนะคือ ${winnerName} ด้วยคะแนนเซต ${state.setsWon.team1} - ${state.setsWon.team2}`;
+            
+            document.querySelectorAll('.score-controls button, .timeout-btn').forEach(btn => btn.disabled = true);
+        }
+
+        function resetMatch() {
+            state = {
+                currentSet: 1,
+                scores: { team1: 0, team2: 0 },
+                setsWon: { team1: 0, team2: 0 },
+                timeouts: {
+                    team1: [false, false, false],
+                    team2: [false, false, false]
+                },
+                matchOver: false,
+                teamNames: { 
+                    team1: document.getElementById('team1-name-input').value || 'ทีม 1',
+                    team2: document.getElementById('team2-name-input').value || 'ทีม 2'
+                }
+            };
+            
+            updateScoreboard();
+            winnerText.textContent = 'ยังไม่มีผู้ชนะ';
+            
+            document.querySelectorAll('.score-controls button').forEach(btn => btn.disabled = false);
+            for (let i = 1; i <= 3; i++) {
+                document.getElementById(`team1-timeout-${i}`).disabled = (i !== 1);
+                document.getElementById(`team2-timeout-${i}`).disabled = (i !== 1);
+            }
+        }
+        
+        function saveAsImage() {
+            const controls = document.querySelector('.controls');
+            controls.style.display = 'none';
+
+            const captureElement = document.querySelector('.container');
+            
+            html2canvas(captureElement, {
+                scale: 2,
+                backgroundColor: null 
+            }).then(canvas => {
+                controls.style.display = 'flex';
+
+                const link = document.createElement('a');
+                link.href = canvas.toDataURL('image/jpeg', 0.9);
+                link.download = 'ผลการแข่งขันตะกร้อ.jpg';
+                link.click();
+            });
+        }
+        
+        updateTeamNames();
+        updateScoreboard();
+    </script>
+</body>
+</html>
